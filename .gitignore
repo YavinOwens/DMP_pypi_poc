@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+*.log
+.tmp/
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Package specific
+datamanagement_genai.egg-info/
+*.pyc
+*.pyo
+
+# Config files with secrets (keep template, ignore actual)
+config.toml
+.secrets.toml
+secrets.toml
+
+# But keep the example config
+!config.toml.example
