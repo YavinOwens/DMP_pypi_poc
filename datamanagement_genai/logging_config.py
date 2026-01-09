@@ -24,7 +24,7 @@ def is_jupyter_environment() -> bool:
             ipython = get_ipython()
             if ipython and ipython.__class__.__name__ == 'ZMQInteractiveShell':
                 return True
-    except:
+    except Exception:
         pass
     return False
 

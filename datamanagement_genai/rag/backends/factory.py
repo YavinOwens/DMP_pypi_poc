@@ -4,7 +4,6 @@ Factory for creating vector stores and embedding providers
 
 import logging
 from typing import Optional, Any
-from pathlib import Path
 
 from .base import VectorStore, EmbeddingProvider
 from .snowflake import SnowflakeVectorStore, SnowflakeEmbeddingProvider

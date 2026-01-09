@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 try:
     from snowflake.snowpark import Session
-    from snowflake.snowpark.functions import col, lit
+    from snowflake.snowpark.functions import col, lit  # noqa: F401
     SNOWPARK_AVAILABLE = True
 except ImportError:
     SNOWPARK_AVAILABLE = False

@@ -11,7 +11,7 @@ __author__ = "Data Management Team"
 # Export verbosity control for Jupyter notebooks
 try:
     from .logging_config import set_verbosity, configure_logging, is_jupyter_environment
-except (ImportError, AttributeError) as e:
+except (ImportError, AttributeError):
     # If import fails, create stub functions that do nothing
     def set_verbosity(verbose: bool = True) -> None:
         """Stub function if logging_config not available"""

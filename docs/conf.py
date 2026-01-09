@@ -2,7 +2,6 @@
 Sphinx configuration for Data Management GenAI package
 """
 
-import os
 import sys
 from pathlib import Path
 

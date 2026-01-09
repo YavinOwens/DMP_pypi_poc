@@ -5,7 +5,7 @@ Utility functions to make the package easier to use in Jupyter notebooks.
 """
 
 from pathlib import Path
-from typing import Optional, Dict, Any, List, Union
+from typing import Optional, Dict, Any
 
 # Optional pandas import (for Jupyter environments)
 try:

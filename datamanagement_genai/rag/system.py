@@ -54,8 +54,8 @@ except ImportError:
     logger.warning("python-docx not available")
 
 try:
-    from snowflake.snowpark import Session
-    from snowflake.snowpark.functions import col, lit
+    from snowflake.snowpark import Session  # noqa: F401
+    from snowflake.snowpark.functions import col, lit  # noqa: F401
     SNOWPARK_AVAILABLE = True
 except ImportError:
     SNOWPARK_AVAILABLE = False
@@ -269,7 +269,7 @@ class RAGSystem:
             logger.error(f"Error generating embedding with AI_EMBED: {e}")
             # Try alternative: use Snowpark AI functions if available
             try:
-                from snowflake.snowpark.functions import ai_embed, lit, col
+                from snowflake.snowpark.functions import ai_embed, col
                 _, model_name, dims = self._get_embedding_function()
                 
                 # Use Snowpark's ai_embed function (recommended Snowpark approach)
@@ -355,7 +355,7 @@ class RAGSystem:
                 if not self.vector_store_database:
                     try:
                         self.vector_store_database = self.session.sql("SELECT CURRENT_DATABASE()").collect()[0][0]
-                    except:
+                    except Exception:
                         pass
             
             # Create vector store table if it doesn't exist
@@ -426,7 +426,7 @@ class RAGSystem:
         """
         try:
             self.session.sql(create_table_sql).collect()
-            logger.info(f"✓ ML training data table created/verified: RAG_ML_TRAINING_DATA")
+            logger.info("✓ ML training data table created/verified: RAG_ML_TRAINING_DATA")
         except Exception as e:
             logger.warning(f"Could not create ML training data table: {e}")
             logger.info("You may need to create it manually with appropriate permissions")
@@ -571,7 +571,7 @@ class RAGSystem:
             logger.info(f"Generating embeddings using AI_EMBED and storing {total_chunks} chunks...")
             logger.info(f"  Estimated time: {estimated_time/60:.1f} minutes ({estimated_time:.0f} seconds)")
         
-        logger.info(f"  Progress will be shown every 10 chunks...")
+        logger.info("  Progress will be shown every 10 chunks...")
         
         stored_count = 0
         failed_count = 0
@@ -769,7 +769,7 @@ class RAGSystem:
         
         # Convert query embedding to SQL array format and cast to VECTOR
         embedding_values = [str(float(x)) for x in query_embedding]
-        embedding_str = ','.join(embedding_values)
+        ','.join(embedding_values)
         
         # Use full database.schema.table path if database is specified
         table_path = f"{self.vector_store_database}.{self.vector_store_schema}.{self.vector_store_table}" if self.vector_store_database else f"{self.vector_store_schema}.{self.vector_store_table}"
@@ -850,7 +850,7 @@ class RAGSystem:
                     if isinstance(metadata, str):
                         try:
                             metadata = json.loads(metadata)
-                        except:
+                        except Exception:
                             metadata = {}
                     
                     chunks.append({
@@ -1213,7 +1213,7 @@ Enhanced Section:"""
                 is_valid = citation_found and overlap_ratio > 0.1
                 
                 if not is_valid:
-                    issue = f"Citation validation issue: "
+                    issue = "Citation validation issue: "
                     if not citation_found:
                         issue += "Citation format not found in enhanced text. "
                     if overlap_ratio <= 0.1:

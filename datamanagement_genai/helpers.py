@@ -3,10 +3,9 @@ Helper functions for Snowflake operations
 """
 
 import os
-import sys
 import logging
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -131,7 +130,7 @@ def get_snowflake_session():
     if SNOWPARK_AVAILABLE:
         try:
             session = Session.builder.configs(config).create()
-            test_result = session.sql("SELECT CURRENT_USER()").collect()
+            session.sql("SELECT CURRENT_USER()").collect()
             return session
         except Exception:
             pass

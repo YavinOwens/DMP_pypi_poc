@@ -4,7 +4,6 @@ Abstract base classes for vector stores and embedding providers
 
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
-from pathlib import Path
 
 
 class VectorStore(ABC):

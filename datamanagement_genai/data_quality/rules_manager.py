@@ -718,7 +718,7 @@ class DataQualityRulesManager:
                                 elif "text" in choice:
                                     return choice["text"]
                         return str(response_raw)
-                    except:
+                    except Exception:
                         return str(response_raw)
                 return str(response_raw) if response_raw else ""
             
@@ -971,7 +971,7 @@ MINIMUM RULE GENERATION REQUIREMENTS:
                             reconstructed = "{" + rules_str + ", \"updates\": [], \"analysis_summary\": \"\"}"
                             llm_response = json.loads(reconstructed)
                             logger.info("Successfully reconstructed JSON from new_rules array")
-                        except:
+                        except Exception:
                             pass
                 
                 if not isinstance(llm_response, dict):
@@ -1224,7 +1224,6 @@ MINIMUM RULE GENERATION REQUIREMENTS:
         # Try to find JSON array
         bracket_count = 0
         start_idx = -1
-        max_array = None
         
         for i, char in enumerate(response):
             if char == '[':

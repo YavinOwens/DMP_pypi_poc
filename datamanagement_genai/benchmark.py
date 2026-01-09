@@ -14,10 +14,9 @@ import logging
 from datetime import datetime
 from pathlib import Path
 import re
-from functools import lru_cache
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List, Tuple, Optional, Any
-import traceback
+import traceback  # noqa: F401
 
 # Set up project-local temporary directory
 # Use package root (parent of datamanagement_genai package)
@@ -28,7 +27,7 @@ TMP_DIR.mkdir(parents=True, exist_ok=True)
 
 # Configure logging - use smart configuration for Jupyter vs scripts
 try:
-    from .logging_config import configure_logging, is_jupyter_environment
+    from .logging_config import configure_logging  # noqa: F401
     # Only configure if not already configured (avoid duplicate handlers)
     if not logging.getLogger().handlers:
         configure_logging(verbose=False)  # Less verbose by default
@@ -49,14 +48,14 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 try:
-    import snowflake.connector
+    import snowflake.connector  # noqa: F401
     SNOWFLAKE_CONNECTOR_AVAILABLE = True
 except ImportError:
     SNOWFLAKE_CONNECTOR_AVAILABLE = False
     logger.warning("snowflake-connector-python not available")
 
 try:
-    from snowflake.snowpark import Session
+    from snowflake.snowpark import Session  # noqa: F401
     SNOWPARK_AVAILABLE = True
 except ImportError:
     SNOWPARK_AVAILABLE = False
@@ -75,14 +74,14 @@ except ImportError:
 
 # Try to import great_expectations for better code validation
 try:
-    import great_expectations as gx
+    import great_expectations as gx  # noqa: F401
     GX_AVAILABLE = True
 except ImportError:
     GX_AVAILABLE = False
     logger.warning("great-expectations not available, GX code validation will be limited")
 
 # Import data quality rules manager (required component)
-from .data_quality.rules_manager import DataQualityRulesManager
+from .data_quality.rules_manager import DataQualityRulesManager  # noqa: E402
 DATA_QUALITY_RULES_AVAILABLE = True
 
 # Default test prompts (fallback if config file not found)
@@ -620,7 +619,7 @@ def execute_cortex_query(session, model: str, prompt: str) -> str:
         for indicator in truncation_indicators:
             if indicator in content_lower:
                 logger.warning(f"Response may be truncated - found indicator: '{indicator}'")
-                print(f"⚠️  Warning: LLM response may be truncated. Consider using a model with higher output limits or splitting the report generation.")
+                print("⚠️  Warning: LLM response may be truncated. Consider using a model with higher output limits or splitting the report generation.")
                 break
         
         logger.debug(f"Received response of length: {len(content)}")
@@ -678,7 +677,7 @@ def check_model_availability(session, models_to_check: List[str]) -> Dict[str, b
     available_count = sum(1 for v in availability.values() if v)
     unavailable_count = len(availability) - available_count
     
-    print(f"\nAvailability Check Complete:")
+    print("\nAvailability Check Complete:")
     print(f"  Available: {available_count}")
     print(f"  Unavailable: {unavailable_count}")
     print("=" * 80 + "\n")
@@ -1021,7 +1020,7 @@ def test_code_execution(session, response: str, test_type: str) -> Tuple[bool, O
                         cursor.close()
             
             retry_with_backoff(_execute_sql, max_retries=2, base_delay=0.5)
-            logger.debug(f"SQL query executed successfully")
+            logger.debug("SQL query executed successfully")
             return True, None
             
         except Exception as e:
@@ -1120,7 +1119,7 @@ def _run_single_test(session_factory, model: str, test_name: str, test_config: D
         try:
             if hasattr(session, 'close'):
                 session.close()
-        except:
+        except Exception:
             pass
         
         return result
@@ -1176,7 +1175,7 @@ def run_model_benchmarks(session, models_to_test=None, parallel: Optional[bool] 
     print("SNOWFLAKE CORTEX AI MODEL BENCHMARKING")
     print("=" * 80)
     print(f"Testing {len(models_to_test)} available models with {len(TEST_PROMPTS)} test scenarios")
-    print(f"Using data from: SNOWFLAKE_SAMPLE_DATA.TPCH_SF1")
+    print("Using data from: SNOWFLAKE_SAMPLE_DATA.TPCH_SF1")
     print(f"Parallel execution: {'Enabled' if parallel else 'Disabled'}")
     if parallel:
         print(f"Max workers: {max_workers}")
@@ -1276,7 +1275,7 @@ def run_model_benchmarks(session, models_to_test=None, parallel: Optional[bool] 
             model_results.append(result)
             
             if result["success"]:
-                print(f"  ✓ Success")
+                print("  ✓ Success")
                 print(f"    Time: {result['elapsed_time']:.2f}s")
                 print(f"    Tokens: {result['total_tokens']} (in: {result['input_tokens']}, out: {result['output_tokens']})")
                 print(f"    Cost: ${result['estimated_cost']:.6f}")
@@ -1304,7 +1303,6 @@ def analyze_benchmark_results(results):
     
     # Group results by model
     model_stats = {}
-    unavailable_models = {}  # Track models that failed all tests
     
     for result in results:
         model = result["model"]
@@ -1435,14 +1433,14 @@ def analyze_benchmark_results(results):
         print("RECOMMENDATION")
         print("=" * 80)
         print(f"\n🏆 BEST DEFAULT MODEL: {best['display']} ({best['model']})")
-        print(f"\nReasoning:")
+        print("\nReasoning:")
         print(f"  • Highest composite score: {best['composite_score']:.2f}")
         print(f"  • Quality: {best['avg_quality']:.2f}/10")
         print(f"  • Cost-effective: ${best['avg_cost']:.6f} per query")
         print(f"  • Fast: {best['avg_time']:.2f}s average response time")
         print(f"  • Reliable: {best['success_rate']:.1f}% success rate")
         print(f"  • Executable code: {best['executable_rate']:.1f}% of generated code runs successfully")
-        print(f"\nThis model provides the best balance for the application's use cases.")
+        print("\nThis model provides the best balance for the application's use cases.")
     
     # Print unavailable models summary
     if unavailable_models_list:
@@ -1502,7 +1500,6 @@ def _enhance_section_with_rag(rag_system, session, report_model, base_content, s
                 context_query_parts.append(f"models {top_models}")
         
         # Use full section text for better context retrieval
-        context_query = f"{' '.join(context_query_parts)}: {base_content[:500]}"
         
         enhanced = rag_system.enhance_report_section(
             section_text=base_content,
@@ -1706,7 +1703,7 @@ Write a professional executive summary (4-5 paragraphs, approximately 400-600 wo
 3. Provide actionable insights on model selection for data management use cases
 4. Conclude with strategic recommendations for implementation
 
-{f"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
+{"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
 
 Use professional, technical language appropriate for CTOs, data architects, and technology decision-makers. Focus on business value, operational efficiency, and technical excellence. Avoid overly casual language. Ensure proper English grammar, spelling, and punctuation throughout. All sentences must be grammatically correct with proper subject-verb agreement and consistent verb tenses."""
     
@@ -1811,7 +1808,7 @@ Provide specific recommendations for:
 - Best model for fast responses
 - Best model for general-purpose use
 
-{f"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
+{"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
 
 Use professional, actionable language suitable for technology decision-makers. Ensure proper English grammar, spelling, and punctuation throughout."""
     
@@ -1853,7 +1850,7 @@ Include:
 - Budget recommendations
 - Cost-effectiveness analysis
 
-{f"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
+{"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
 
 Format ROI considerations as a clear list that can be converted to a table. Use professional financial/technical language. Ensure proper English grammar, spelling, and punctuation throughout."""
     
@@ -1935,7 +1932,7 @@ Include:
 - Future considerations
 - Next steps for model selection
 
-{f"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
+{"IMPORTANT: Reference authoritative data management frameworks and best practices (e.g., DAMA DMBOK 2nd Edition) where relevant to provide industry-standard context and credibility to your recommendations." if rag_system else ""}
 
 Use professional, actionable language suitable for technology and data management professionals. Ensure proper English grammar, spelling, and punctuation throughout."""
     
@@ -2019,7 +2016,7 @@ Use professional, actionable language suitable for technology and data managemen
                 all_citations[section_title] = {
                     'enhanced': True,
                     'source': 'DAMA DMBOK 2nd Edition',
-                    'note': f'This section was enhanced with knowledge base references from authoritative data management sources.',
+                    'note': 'This section was enhanced with knowledge base references from authoritative data management sources.',
                     'detailed_citations': detailed_citations,
                     'validation_passed': enhanced_result.get('validation_passed', True) if enhanced_result else True
                 }
@@ -2221,7 +2218,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         from docx.enum.text import WD_ALIGN_PARAGRAPH
         from docx.oxml import OxmlElement
         from docx.oxml.ns import qn
-        DOCX_AVAILABLE = True
     except ImportError:
         print("⚠️  python-docx not available. Install with: pip install python-docx")
         return None
@@ -2283,7 +2279,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     # Helper function to create ROI considerations table
     def create_roi_table(doc, roi_data, model_rankings):
         """Create a table from ROI considerations data"""
-        import re
         
         # Create table with headers matching the image structure
         roi_table = doc.add_table(rows=1, cols=7)
@@ -2487,7 +2482,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
                 run.font.size = Pt(11)
     
     # Track headings for TOC
-    toc_headings = []
     
     # Add page numbers to all sections
     def add_page_numbers(section):
@@ -2537,7 +2531,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         f'Generated: {datetime.now().strftime("%B %d, %Y at %H:%M:%S")}',
         f'Total Models Tested: {len(model_rankings)}',
         f'Total Test Scenarios: {len(TEST_PROMPTS)}',
-        f'Data Source: SNOWFLAKE_SAMPLE_DATA.TPCH_SF1'
+        'Data Source: SNOWFLAKE_SAMPLE_DATA.TPCH_SF1'
     ]
     if output_dir:
         metadata_items.append(f'Test Run Identifier: {output_dir.name}')
@@ -2554,7 +2548,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     doc.add_paragraph('')  # Spacing after metadata
     
     # Table of Contents - Use Word's built-in TOC field
-    toc_heading = doc.add_heading('Table of Contents', level=1)
+    doc.add_heading('Table of Contents', level=1)
     toc_para = doc.add_paragraph()
     # Add Word's built-in TOC field that automatically generates from heading styles
     run = toc_para.add_run()
@@ -2584,7 +2578,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     run._element.append(fldChar3)
     doc.add_page_break()  # Start content on new page after TOC
     # We no longer need to track toc_entries manually since Word will auto-generate
-    toc_entries = []  # Keep for backward compatibility but won't be used
     
     # Executive Summary - will be included in LLM report section
     # (LLM generates comprehensive executive summary, so we skip the simple programmatic one)
@@ -2620,10 +2613,8 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
             "remaining sections"
         ]
         
-        is_truncated = False
         for indicator in truncation_indicators:
             if indicator.lower() in llm_report.lower():
-                is_truncated = True
                 warning_para = doc.add_paragraph()
                 warning_run = warning_para.add_run('⚠️ ')
                 warning_run.bold = True
@@ -2657,7 +2648,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         report_lines = llm_report.split('\n')
         current_paragraph = []
         in_bullet_list = False
-        last_heading = None
         pending_summary = []
         in_roi_section = False
         roi_data = []
@@ -2705,7 +2695,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
                         word_level = min(heading_level + 1, 3)  # Cap at level 3 for TOC
                     
                     # Add the heading
-                    heading = doc.add_heading(heading_text, level=word_level)
+                    doc.add_heading(heading_text, level=word_level)
                     
                     # Add professional spacing after main section headings
                     if word_level == 2:
@@ -2716,7 +2706,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
                         in_recommendations_section = True
                     else:
                         in_recommendations_section = False
-                    last_heading = heading_text
                     pending_summary = []  # Reset pending summary for new heading
                     
                     # Check if this is ROI considerations section
@@ -2803,7 +2792,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
                 
                 if is_bullet:
                     # If we have accumulated text that's not a bullet, it might be a summary
-                    if current_paragraph and not any(re.match(r'^[-*•]\s+', l.strip()) or re.match(r'^\d+[.)]\s+', l.strip()) for l in current_paragraph):
+                    if current_paragraph and not any(re.match(r'^[-*•]\s+', line.strip()) or re.match(r'^\d+[.)]\s+', line.strip()) for line in current_paragraph):
                         # Check if accumulated text looks like a summary paragraph
                         accumulated_text = ' '.join(current_paragraph).strip()
                         if len(accumulated_text) > 50:
@@ -2850,7 +2839,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         doc.add_paragraph('')
     
     # Model Rankings
-    rankings_heading = doc.add_heading('Model Rankings', level=1)
+    doc.add_heading('Model Rankings', level=1)
     # Introduction will be extracted from LLM report if available, otherwise use simple intro
     if llm_report and 'Model Rankings' in llm_report or 'rankings' in llm_report.lower():
         # LLM may have provided context in its report, but we'll add a brief intro
@@ -2901,7 +2890,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     doc.add_paragraph('')  # Spacing after table
     
     # Detailed Results by Model
-    detailed_heading = doc.add_heading('Detailed Results by Model', level=1)
+    doc.add_heading('Detailed Results by Model', level=1)
     # Add brief context about the detailed metrics
     detailed_intro = doc.add_paragraph(
         'The following table provides comprehensive performance metrics for each model across all test scenarios. '
@@ -2953,10 +2942,10 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     doc.add_paragraph('')
     
     # Test Scenario Details with Model Outputs
-    test_scenario_heading = doc.add_heading('Test Scenario Details', level=1)
+    doc.add_heading('Test Scenario Details', level=1)
     
     # RTF Framework Introduction - extract from LLM report if available
-    rtf_intro_heading = doc.add_heading('Prompt Framework: Role-Task-Framework (RTF)', level=2)
+    doc.add_heading('Prompt Framework: Role-Task-Framework (RTF)', level=2)
     
     # Try to extract RTF explanation from LLM report
     rtf_explanation = None
@@ -3016,7 +3005,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     
     for test_name, test_config in TEST_PROMPTS.items():
         test_title = test_name.replace('_', ' ').title()
-        scenario_heading = doc.add_heading(test_title, level=2)
+        doc.add_heading(test_title, level=2)
         
         type_para = doc.add_paragraph(f"Type: {test_config['test_type']}")
         type_para.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -3102,7 +3091,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
                     
                     # Store full response in cell (Word can handle large text)
                     # Add note if response is very long, but include full text
-                    full_response = response
                     if len(response) > 5000:
                         # For very long responses, add a note but keep full text
                         response_display = response[:5000] + f"\n\n[... Additional {len(response) - 5000} characters in full response ...]\n\n" + response[5000:]
@@ -3158,7 +3146,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         doc.add_paragraph('')
     
     # Recommendations
-    rec_heading = doc.add_heading('Recommendations', level=1)
+    doc.add_heading('Recommendations', level=1)
     
     # Introduction paragraph - brief, table provides details
     intro_para = doc.add_paragraph(
@@ -3246,7 +3234,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     
     # Data Solution Proposition (SPIN Method)
     doc.add_page_break()
-    proposition_heading = doc.add_heading('Data Solution Proposition', level=1)
+    doc.add_heading('Data Solution Proposition', level=1)
     
     # Generate SPIN-based proposition using LLM if session is available
     proposition_content = None
@@ -3272,7 +3260,6 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         # Process and add the proposition content
         prop_lines = proposition_content.split('\n')
         current_section = []
-        current_heading = None
         
         for line in prop_lines:
             line = line.strip()
@@ -3323,7 +3310,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     # Add this BEFORE AI Disclosure for better flow
     rag_citations = getattr(generate_llm_report_section_based, '_citations_metadata', None)
     if rag_citations:
-        kb_heading = doc.add_heading('Knowledge Base References', level=1)
+        doc.add_heading('Knowledge Base References', level=1)
         
         kb_intro = doc.add_paragraph()
         kb_intro.add_run('Authoritative Knowledge Base Integration: ').bold = True
@@ -3341,7 +3328,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         doc.add_paragraph('')
         
         # Primary source citation (APA format)
-        primary_heading = doc.add_heading('Primary Knowledge Base Source', level=2)
+        doc.add_heading('Primary Knowledge Base Source', level=2)
         citation_para = doc.add_paragraph()
         citation_para.add_run('DAMA International. (2017). ').italic = True
         citation_para.add_run('DAMA-DMBOK: Data Management Body of Knowledge').italic = True
@@ -3359,15 +3346,15 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         doc.add_page_break()
     
     # AI Disclosure and Attribution Section
-    ai_disclosure_heading = doc.add_heading('AI Disclosure and Attribution', level=1)
+    doc.add_heading('AI Disclosure and Attribution', level=1)
     
     disclosure_para = doc.add_paragraph()
     disclosure_para.add_run('This report was generated with the assistance of artificial intelligence (AI) tools. The following disclosure provides transparency about AI usage in accordance with academic and professional guidelines.').bold = True
     doc.add_paragraph('')
     
     # AI Tools Used
-    tools_heading = doc.add_heading('AI Tools Utilized', level=2)
-    tools_list = doc.add_paragraph('The following AI tools were used in the generation of this report:')
+    doc.add_heading('AI Tools Utilized', level=2)
+    doc.add_paragraph('The following AI tools were used in the generation of this report:')
     
     # Primary AI tool for report generation
     if llm_report and best_model:
@@ -3386,8 +3373,8 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     doc.add_paragraph('')
     
     # Purpose and Scope
-    purpose_heading = doc.add_heading('Purpose and Scope of AI Usage', level=2)
-    purpose_para = doc.add_paragraph('AI tools were used for the following purposes:')
+    doc.add_heading('Purpose and Scope of AI Usage', level=2)
+    doc.add_paragraph('AI tools were used for the following purposes:')
     doc.add_paragraph('• Generating comprehensive analysis and interpretation of benchmarking results', style='List Bullet')
     doc.add_paragraph('• Synthesizing performance metrics into actionable insights and recommendations', style='List Bullet')
     doc.add_paragraph('• Creating executive summaries and detailed findings based on quantitative test data', style='List Bullet')
@@ -3401,8 +3388,8 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     doc.add_paragraph('')
     
     # Human Oversight
-    oversight_heading = doc.add_heading('Human Oversight and Verification', level=2)
-    oversight_para = doc.add_paragraph('The following human oversight and verification processes were applied:')
+    doc.add_heading('Human Oversight and Verification', level=2)
+    doc.add_paragraph('The following human oversight and verification processes were applied:')
     doc.add_paragraph('• All AI-generated content was reviewed and verified for accuracy', style='List Bullet')
     doc.add_paragraph('• Benchmarking test results and quantitative metrics were programmatically generated and validated', style='List Bullet')
     doc.add_paragraph('• Model rankings and statistics are based on actual test execution data, not AI-generated', style='List Bullet')
@@ -3411,7 +3398,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     doc.add_paragraph('')
     
     # Citation Format
-    citation_heading = doc.add_heading('Citation and Attribution', level=2)
+    doc.add_heading('Citation and Attribution', level=2)
     citation_para = doc.add_paragraph('When referencing this report or its AI-generated content, please use the following citation format:')
     doc.add_paragraph('')
     
@@ -3434,7 +3421,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     
     # Appendix: Unavailable Models
     if unavailable_models:
-        unavailable_heading = doc.add_heading('Appendix A: Unavailable Models', level=1)
+        doc.add_heading('Appendix A: Unavailable Models', level=1)
         unavail_intro = doc.add_paragraph(
             'The following models were tested but are not available in your Snowflake account. '
             'These models are excluded from the main rankings and analysis.'
@@ -3466,7 +3453,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
         doc.add_paragraph('')
     
     # Appendix: Raw Results Summary
-    appendix_heading = doc.add_heading('Appendix B: Test Results Summary', level=1)
+    doc.add_heading('Appendix B: Test Results Summary', level=1)
     summary_items = [
         f'Total test results: {len(results)}',
         f'Successful tests: {sum(1 for r in results if r.get("success"))}',
@@ -3482,7 +3469,7 @@ def create_word_document(results, model_rankings, best_model, llm_report=None, o
     
     # References Section (after Appendix)
     doc.add_page_break()
-    references_heading = doc.add_heading('References', level=1)
+    doc.add_heading('References', level=1)
     
     # Collect all citations from RAG system if available
     rag_citations = getattr(generate_llm_report_section_based, '_citations_metadata', None)
@@ -3697,11 +3684,11 @@ def main():
     # Verify access to sample data
     try:
         if hasattr(session, 'sql'):
-            test_query = session.sql("SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT 1").collect()
+            session.sql("SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT 1").collect()
         else:
             cursor = session.cursor()
             cursor.execute("SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT 1")
-            test_query = cursor.fetchone()
+            cursor.fetchone()
             cursor.close()
         print("✓ Access to SNOWFLAKE_SAMPLE_DATA verified")
     except Exception as e:
@@ -3800,7 +3787,7 @@ def main():
         print("BENCHMARKING COMPLETE")
         print("=" * 80)
         print(f"\nTest results saved to: {test_output_dir}")
-        print(f"\nFiles generated:")
+        print("\nFiles generated:")
         print(f"  - JSON results: {results_file.name}")
         if word_doc:
             print(f"  - Word report: {word_doc.name}")
@@ -3821,7 +3808,7 @@ def main():
                 session.close()
             elif hasattr(session, 'cursor'):
                 session.close()
-        except:
+        except Exception:
             pass
         
         # Clear schema cache after tests complete

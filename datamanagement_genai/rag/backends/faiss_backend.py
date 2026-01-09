@@ -5,7 +5,6 @@ Requires: pip install faiss-cpu (or faiss-gpu for GPU support)
 """
 
 import logging
-import pickle
 import sqlite3
 from typing import List, Dict, Any, Optional
 from pathlib import Path
