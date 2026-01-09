@@ -45,6 +45,11 @@ jupyter = [
     "ipykernel>=6.0.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/YavinOwens/DMP_pypi_poc"
+Repository = "https://github.com/YavinOwens/DMP_pypi_poc"
+Issues = "https://github.com/YavinOwens/DMP_pypi_poc/issues"
+
 [project.scripts]
 datamanagement-genai = "datamanagement_genai.cli:main"
 
