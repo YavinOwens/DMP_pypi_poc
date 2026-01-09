@@ -40,6 +40,20 @@ rag = [
     "PyPDF2>=3.0.0",
     "pdfplumber>=0.10.0",
 ]
+qdrant = [
+    "qdrant-client>=1.7.0",
+]
+chromadb = [
+    "chromadb>=0.4.0",
+]
+faiss = [
+    "faiss-cpu>=1.7.4; sys_platform != 'darwin'",
+    "faiss-cpu>=1.7.4; sys_platform == 'darwin'",
+]
+local-embeddings = [
+    "sentence-transformers>=2.2.0",
+    "torch>=2.0.0",
+]
 jupyter = [
     "jupyter>=1.0.0",
     "ipykernel>=6.0.0",
