@@ -13,11 +13,10 @@ authors = [
     {name = "Data Management Team"}
 ]
 keywords = ["snowflake", "cortex", "ai", "llm", "benchmarking", "data-quality", "rag", "vector-store"]
-project-urls = {
-    "Homepage" = "https://github.com/YavinOwens/DMP_pypi_poc",
-    "Repository" = "https://github.com/YavinOwens/DMP_pypi_poc",
-    "Issues" = "https://github.com/YavinOwens/DMP_pypi_poc/issues"
-}
+[project.urls]
+Homepage = "https://github.com/YavinOwens/DMP_pypi_poc"
+Repository = "https://github.com/YavinOwens/DMP_pypi_poc"
+Issues = "https://github.com/YavinOwens/DMP_pypi_poc/issues"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
