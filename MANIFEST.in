@@ -1,0 +1,7 @@
+# Include root-level data files
+include data_quality_rules.csv
+include test_config.json
+include README.md
+
+# Include all JSON files in the package
+recursive-include datamanagement_genai *.json

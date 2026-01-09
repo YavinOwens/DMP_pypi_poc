@@ -1,0 +1,97 @@
+{
+  "models": {
+    "claude-3-5-sonnet": {
+      "display": "Claude 3.5 Sonnet",
+      "cost_per_1M_input": 3.00,
+      "cost_per_1M_output": 15.00,
+      "enabled": true
+    },
+    "mistral-7b": {
+      "display": "Mistral 7B",
+      "cost_per_1M_input": 0.14,
+      "cost_per_1M_output": 0.14,
+      "enabled": true
+    },
+    "mixtral-8x7b": {
+      "display": "Mixtral 8x7B",
+      "cost_per_1M_input": 0.24,
+      "cost_per_1M_output": 0.24,
+      "enabled": true
+    }
+  },
+  "test_prompts": {
+    "data_quality_gx": {
+      "natural_language": "The L_ORDERKEY column should not be null and should be unique",
+      "table": "LINEITEM",
+      "schema": "SNOWFLAKE_SAMPLE_DATA.TPCH_SF1",
+      "expected_elements": [
+        "expect_column_values_to_not_be_null",
+        "expect_column_values_to_be_unique",
+        "L_ORDERKEY",
+        "LINEITEM"
+      ],
+      "test_type": "code_generation",
+      "enabled": true
+    },
+    "sql_query_generation": {
+      "prompt": "Write a SQL query to find all customers from the CUSTOMER table in SNOWFLAKE_SAMPLE_DATA.TPCH_SF1 who have a C_ACCTBAL greater than 5000, ordered by C_ACCTBAL descending. Return C_CUSTKEY, C_NAME, and C_ACCTBAL.",
+      "expected_elements": [
+        "SELECT",
+        "FROM",
+        "CUSTOMER",
+        "C_ACCTBAL",
+        "WHERE",
+        "ORDER BY"
+      ],
+      "test_type": "sql_generation",
+      "enabled": true
+    },
+    "data_analysis": {
+      "prompt": "Analyze the ORDERS table in SNOWFLAKE_SAMPLE_DATA.TPCH_SF1. What data quality checks should I perform? Consider null values, data types, and referential integrity.",
+      "expected_elements": [
+        "null",
+        "data type",
+        "quality",
+        "check"
+      ],
+      "test_type": "analysis",
+      "enabled": true
+    },
+    "complex_validation": {
+      "natural_language": "L_QUANTITY should be positive, L_EXTENDEDPRICE should be positive, L_ORDERKEY should not be null, L_SHIPDATE should not be in the future",
+      "table": "LINEITEM",
+      "schema": "SNOWFLAKE_SAMPLE_DATA.TPCH_SF1",
+      "expected_elements": [
+        "expect_column_values_to_be_between",
+        "expect_column_values_to_not_be_null",
+        "L_QUANTITY",
+        "L_EXTENDEDPRICE"
+      ],
+      "test_type": "code_generation",
+      "enabled": true
+    },
+    "schema_explanation": {
+      "prompt": "Explain the relationship between the CUSTOMER, ORDERS, and LINEITEM tables in the TPCH_SF1 schema. What are the primary keys and foreign keys?",
+      "expected_elements": [
+        "CUSTOMER",
+        "ORDERS",
+        "LINEITEM",
+        "key",
+        "relationship"
+      ],
+      "test_type": "explanation",
+      "enabled": true
+    }
+  },
+  "token_limits": {
+    "claude-3-5-sonnet": 200000,
+    "mistral-7b": 8192,
+    "mixtral-8x7b": 32768
+  },
+  "settings": {
+    "parallel_execution": true,
+    "max_workers": 3,
+    "output_directory": "tests",
+    "log_level": "INFO"
+  }
+}

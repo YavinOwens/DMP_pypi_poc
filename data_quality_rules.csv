@@ -1,0 +1,2 @@
+validation_number,business_rule,data_quality_rule,data_quality_dimension,Code Snowflake,Code SQL,Code Python,Dama Reference,raci,status,created_date,created_by,updated_date,updated_by,version,notes
+VR-001,Test business rule,Test data quality rule,Completeness,SELECT COUNT(*) FROM table WHERE column IS NULL,SELECT COUNT(*) FROM table WHERE column IS NULL,df[df['column'].isnull()].shape[0],,Responsible,Draft,2026-01-08T14:40:51.763079,System,2026-01-08T14:40:51.763079,System,1.0,Test rule with code columns

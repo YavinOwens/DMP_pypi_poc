@@ -1,0 +1,123 @@
+validation_number,business_rule,data_quality_rule,data_quality_dimension,Code Snowflake,Code SQL,Code Python,Dama Reference,raci,status,created_date,created_by,updated_date,updated_by,version,notes
+VR-001,L_ORDERKEY should never contain null values to maintain the relationship with the order table.,Check if L_ORDERKEY contains any null values.,Completeness,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_ORDERKEY IS NULL;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_ORDERKEY IS NULL;,len(lineitem[lineitem['L_ORDERKEY'].isnull()]),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:28.454395,LLM Analysis,2026-01-08T23:13:28.454395,LLM Analysis,1.0,
+VR-002,L_PARTKEY should never contain null values to ensure proper tracking of parts in the order.,Check if L_PARTKEY contains any null values.,Completeness,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_PARTKEY IS NULL;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_PARTKEY IS NULL;,len(lineitem[lineitem['L_PARTKEY'].isnull()]),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:32.321538,LLM Analysis,2026-01-08T23:13:32.321538,LLM Analysis,1.0,
+VR-003,L_SUPPKEY should never contain null values to maintain the relationship with the supplier table.,Check if L_SUPPKEY contains any null values.,Completeness,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_SUPPKEY IS NULL;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_SUPPKEY IS NULL;,len(lineitem[lineitem['L_SUPPKEY'].isnull()]),"DAMA DMBOK 2nd Edition.pdf: reference	for	one	other	object,	this	can	be	a	good	solution.
+2.2.1.3.4	Assign	Surrogate	Keys
+Assign	unique	key	values	that	are	not	visible	to	the	business	and	have	no
+meaning	or	relationship	with	the...",Responsible,Draft,2026-01-08T23:13:34.558003,LLM Analysis,2026-01-08T23:13:34.558003,LLM Analysis,1.0,
+VR-004,L_QUANTITY should never contain null values to ensure accurate order quantities.,Check if L_QUANTITY contains any null values.,Completeness,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_QUANTITY IS NULL;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_QUANTITY IS NULL;,len(lineitem[lineitem['L_QUANTITY'].isnull()]),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:36.826389,LLM Analysis,2026-01-08T23:13:36.826389,LLM Analysis,1.0,
+VR-005,L_EXTENDEDPRICE should never contain null values to ensure accurate order pricing.,Check if L_EXTENDEDPRICE contains any null values.,Completeness,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_EXTENDEDPRICE IS NULL;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_EXTENDEDPRICE IS NULL;,len(lineitem[lineitem['L_EXTENDEDPRICE'].isnull()]),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:39.383570,LLM Analysis,2026-01-08T23:13:39.383570,LLM Analysis,1.0,
+VR-006,L_DISCOUNT should not exceed 1.0 to maintain the validity of the discount.,Check if L_DISCOUNT is greater than or equal to 1.0.,Accuracy,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_DISCOUNT >= 1.0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_DISCOUNT >= 1.0;,len(lineitem[lineitem['L_DISCOUNT'] >= 1.0]),"DAMA DMBOK 2nd Edition.pdf: supporting	repeatable	results	to	compare	an	organization	against
+others	in	its	industry	and	to	track	progress	over	time.
+Supported	by	a	neutral,	independent	organization
+:	The
+model	should	be	vendor	n...",Responsible,Draft,2026-01-08T23:13:41.678167,LLM Analysis,2026-01-08T23:13:41.678167,LLM Analysis,1.0,
+VR-007,L_TAX should not exceed 1.0 to maintain the validity of the tax.,Check if L_TAX is greater than or equal to 1.0.,Accuracy,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_TAX >= 1.0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_TAX >= 1.0;,len(lineitem[lineitem['L_TAX'] >= 1.0]),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:43.778701,LLM Analysis,2026-01-08T23:13:43.778701,LLM Analysis,1.0,
+VR-008,"L_RETURNFLAG should only contain valid values (A, R, or N).",Check if L_RETURNFLAG contains invalid values.,Accuracy,"SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_RETURNFLAG NOT IN ('A', 'R', 'N');","SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_RETURNFLAG NOT IN ('A', 'R', 'N');","len(lineitem[~lineitem['L_RETURNFLAG'].isin(['A', 'R', 'N'])])","DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:45.900757,LLM Analysis,2026-01-08T23:13:45.900757,LLM Analysis,1.0,
+VR-009,L_LINESTATUS should only contain valid values (F or O).,Check if L_LINESTATUS contains invalid values.,Accuracy,"SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_LINESTATUS NOT IN ('F', 'O');","SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_LINESTATUS NOT IN ('F', 'O');","len(lineitem[~lineitem['L_LINESTATUS'].isin(['F', 'O'])])","DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:47.391877,LLM Analysis,2026-01-08T23:13:47.391877,LLM Analysis,1.0,
+VR-010,L_QUANTITY and L_EXTENDEDPRICE should have a consistent relationship to ensure accurate order pricing.,Check if L_QUANTITY and L_EXTENDEDPRICE have inconsistent relationships.,Consistency,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_QUANTITY * L_EXTENDEDPRICE < 0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_QUANTITY * L_EXTENDEDPRICE < 0;,len(lineitem[(lineitem['L_QUANTITY'] * lineitem['L_EXTENDEDPRICE']) < 0]),"DAMA DMBOK 2nd Edition.pdf: Consistency
+:	The	absence	of	difference,	when	comparing	two
+or	more	representations	of	a	thing	against	a	definition.
+The	DAMA	UK	white	paper	also	describes	other	characteristics	that	have
+an	impact	on...",Responsible,Draft,2026-01-08T23:13:48.745407,LLM Analysis,2026-01-08T23:13:48.745407,LLM Analysis,1.0,
+VR-011,L_DISCOUNT and L_EXTENDEDPRICE should have a consistent relationship to ensure accurate order pricing.,Check if L_DISCOUNT and L_EXTENDEDPRICE have inconsistent relationships.,Consistency,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_DISCOUNT * L_EXTENDEDPRICE < 0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_DISCOUNT * L_EXTENDEDPRICE < 0;,len(lineitem[(lineitem['L_DISCOUNT'] * lineitem['L_EXTENDEDPRICE']) < 0]),"DAMA DMBOK 2nd Edition.pdf: Consistency
+:	The	absence	of	difference,	when	comparing	two
+or	more	representations	of	a	thing	against	a	definition.
+The	DAMA	UK	white	paper	also	describes	other	characteristics	that	have
+an	impact	on...",Responsible,Draft,2026-01-08T23:13:50.143948,LLM Analysis,2026-01-08T23:13:50.143948,LLM Analysis,1.0,
+VR-012,L_TAX and L_EXTENDEDPRICE should have a consistent relationship to ensure accurate order pricing.,Check if L_TAX and L_EXTENDEDPRICE have inconsistent relationships.,Consistency,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_TAX * L_EXTENDEDPRICE < 0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_TAX * L_EXTENDEDPRICE < 0;,len(lineitem[(lineitem['L_TAX'] * lineitem['L_EXTENDEDPRICE']) < 0]),"DAMA DMBOK 2nd Edition.pdf: Consistency
+:	The	absence	of	difference,	when	comparing	two
+or	more	representations	of	a	thing	against	a	definition.
+The	DAMA	UK	white	paper	also	describes	other	characteristics	that	have
+an	impact	on...",Responsible,Draft,2026-01-08T23:13:51.478159,LLM Analysis,2026-01-08T23:13:51.478159,LLM Analysis,1.0,
+VR-013,L_ORDERKEY should be unique to maintain the integrity of the order line items.,Check if L_ORDERKEY contains duplicate values.,Uniqueness,"SELECT COUNT(*) FROM (SELECT L_ORDERKEY, COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM GROUP BY L_ORDERKEY HAVING COUNT(*) > 1) subquery;","SELECT COUNT(*) FROM (SELECT L_ORDERKEY, COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM GROUP BY L_ORDERKEY HAVING COUNT(*) > 1) subquery;",len(lineitem.drop_duplicates(['L_ORDERKEY'])[['L_ORDERKEY']].index),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:52.806866,LLM Analysis,2026-01-08T23:13:52.806866,LLM Analysis,1.0,
+VR-014,L_PARTKEY and L_SUPPKEY should be unique for each L_ORDERKEY to maintain the integrity of the order line items.,Check if the combination of L_PARTKEY and L_SUPPKEY is unique for each L_ORDERKEY.,Uniqueness,"SELECT COUNT(*) FROM (SELECT L_ORDERKEY, L_PARTKEY, L_SUPPKEY, COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM GROUP BY L_ORDERKEY, L_PARTKEY, L_SUPPKEY HAVING COUNT(*) > 1) subquery;","SELECT COUNT(*) FROM (SELECT L_ORDERKEY, L_PARTKEY, L_SUPPKEY, COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM GROUP BY L_ORDERKEY, L_PARTKEY, L_SUPPKEY HAVING COUNT(*) > 1) subquery;","len(lineitem.drop_duplicates(['L_ORDERKEY', 'L_PARTKEY', 'L_SUPPKEY'])[['L_ORDERKEY', 'L_PARTKEY', 'L_SUPPKEY']].index)","DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:54.171796,LLM Analysis,2026-01-08T23:13:54.171796,LLM Analysis,1.0,
+VR-015,L_EXTENDEDPRICE should be positive to ensure accurate order pricing.,Check if L_EXTENDEDPRICE contains negative values.,Accuracy,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_EXTENDEDPRICE < 0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_EXTENDEDPRICE < 0;,len(lineitem[lineitem['L_EXTENDEDPRICE'] < 0]),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:13:55.630277,LLM Analysis,2026-01-08T23:13:55.630277,LLM Analysis,1.0,
+VR-016,L_DISCOUNT should be non-negative to ensure accurate order pricing.,Check if L_DISCOUNT contains negative values.,Accuracy,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_DISCOUNT < 0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_DISCOUNT < 0;,len(lineitem[lineitem['L_DISCOUNT'] < 0]),"DAMA DMBOK 2nd Edition.pdf: supporting	repeatable	results	to	compare	an	organization	against
+others	in	its	industry	and	to	track	progress	over	time.
+Supported	by	a	neutral,	independent	organization
+:	The
+model	should	be	vendor	n...",Responsible,Draft,2026-01-08T23:13:57.247783,LLM Analysis,2026-01-08T23:13:57.247783,LLM Analysis,1.0,
+VR-017,L_TAX should be non-negative to ensure accurate order pricing.,Check if L_TAX contains negative values.,Accuracy,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_TAX < 0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_TAX < 0;,len(lineitem[lineitem['L_TAX'] < 0]),"DAMA DMBOK 2nd Edition.pdf: supporting	repeatable	results	to	compare	an	organization	against
+others	in	its	industry	and	to	track	progress	over	time.
+Supported	by	a	neutral,	independent	organization
+:	The
+model	should	be	vendor	n...",Responsible,Draft,2026-01-08T23:13:59.008593,LLM Analysis,2026-01-08T23:13:59.008593,LLM Analysis,1.0,
+VR-018,L_QUANTITY should be positive to ensure accurate order quantities.,Check if L_QUANTITY contains negative values.,Accuracy,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_QUANTITY < 0;,SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM WHERE L_QUANTITY < 0;,len(lineitem[lineitem['L_QUANTITY'] < 0]),"DAMA DMBOK 2nd Edition.pdf: Completeness	of	values
+Validity	or	business	rule	conformance
+Accuracy	to	a	surrogate	source
+Accuracy	to	reality
+Precision
+Non-duplication
+Equivalence	of	redundant	or	distributed	data
+Concurrency	of	re...",Responsible,Draft,2026-01-08T23:14:00.619140,LLM Analysis,2026-01-08T23:14:00.619140,LLM Analysis,1.0,

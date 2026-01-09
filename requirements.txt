@@ -1,0 +1,43 @@
+# Main dependencies for Snowflake Data Management & Discovery Streamlit App
+# Python 3.13 compatible
+
+# Core application
+streamlit
+pandas
+
+# Snowflake packages
+snowflake-connector-python==4.1.1
+snowflake-snowpark-python==1.44.0
+
+# Note: Other dependencies will be installed automatically as they are required by the above packages
+
+# RAG System Dependencies (Snowflake Native)
+# Install with: pip install -r requirements-rag.txt
+
+# Note: This RAG system uses Snowflake's native embedding functions (ai_embed)
+# No external embedding models (HuggingFace, etc.) are required!
+
+# Optional: LangChain for better PDF processing (recommended)
+# If not installed, will fall back to PyPDF2
+langchain>=0.1.0
+langchain-community>=0.0.20
+
+# PDF Processing (at least one required)
+pypdf>=3.0.0  # For LangChain
+PyPDF2>=3.0.0  # Fallback if LangChain not available
+
+# Word document processing (already in requirements.txt)
+python-docx>=1.1.0
+
+# Optional: For better PDF processing
+pdfplumber>=0.10.0
+
+# Vector store and embeddings: SNOWFLAKE NATIVE
+# - Uses Snowflake's ai_embed() function
+# - Uses Snowflake Cortex AI for LLM generation
+# - No external embedding models needed!
+# - Vector support built into snowflake-snowpark-python
+
+# Optional: CrewAI (alternative to LangChain for orchestration)
+# crewai>=0.1.0
+# crewai-tools>=0.1.0
