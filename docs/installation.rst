@@ -51,6 +51,54 @@ This includes:
 * jupyter
 * ipykernel
 
+Vector Store Backends
+~~~~~~~~~~~~~~~~~~~~
+
+The RAG system supports multiple vector store backends. Install the backend(s) you need:
+
+Qdrant Backend
+^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   pip install datamanagement-genai[qdrant]
+
+This includes:
+* qdrant-client
+
+ChromaDB Backend
+^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   pip install datamanagement-genai[chromadb]
+
+This includes:
+* chromadb
+
+FAISS Backend
+^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   pip install datamanagement-genai[faiss]
+
+This includes:
+* faiss-cpu (or faiss-gpu for GPU support)
+
+Local Embeddings
+^^^^^^^^^^^^^^^^
+
+For local embedding models (HuggingFace/sentence-transformers):
+
+.. code-block:: bash
+
+   pip install datamanagement-genai[local-embeddings]
+
+This includes:
+* sentence-transformers
+* torch
+
 All Features
 ~~~~~~~~~~~~
 
@@ -58,7 +106,7 @@ To install with all optional dependencies:
 
 .. code-block:: bash
 
-   pip install datamanagement-genai[rag,jupyter]
+   pip install datamanagement-genai[rag,jupyter,qdrant,chromadb,faiss,local-embeddings]
 
 Requirements
 ------------

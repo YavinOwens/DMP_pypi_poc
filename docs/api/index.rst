@@ -40,6 +40,73 @@ RAG System
    :undoc-members:
    :show-inheritance:
 
+RAG Backends
+------------
+
+Vector Store Factory
+~~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.backends.factory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Base Classes
+~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.backends.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Snowflake Backend
+~~~~~~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.backends.snowflake
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Qdrant Backend
+~~~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.backends.qdrant_backend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ChromaDB Backend
+~~~~~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.backends.chromadb_backend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+FAISS Backend
+~~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.backends.faiss_backend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Local Storage
+~~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.backends.local_storage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAG Configuration
+~~~~~~~~~~~~~~~~
+
+.. automodule:: datamanagement_genai.rag.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Reporting
 ---------
 

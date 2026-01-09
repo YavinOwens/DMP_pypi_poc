@@ -21,6 +21,7 @@ Features
 * **Model Benchmarking**: Test and compare Snowflake Cortex AI models
 * **Data Quality Management**: LLM-powered data quality rules generation and management
 * **RAG System**: Retrieval-Augmented Generation for knowledge base enhancement
+* **Multi-Backend Support**: Choose from Snowflake, Qdrant, ChromaDB, or FAISS vector stores
 * **Report Generation**: Automated Word document generation with citations
 * **Jupyter Support**: Seamless integration with Jupyter notebooks
 
@@ -43,8 +44,11 @@ For optional features:
    # With Jupyter support
    pip install datamanagement-genai[jupyter]
 
-   # With both
-   pip install datamanagement-genai[rag,jupyter]
+   # With vector store backends
+   pip install datamanagement-genai[qdrant,chromadb,faiss]
+
+   # With all features
+   pip install datamanagement-genai[rag,jupyter,qdrant,chromadb,faiss]
 
 Quick Start
 -----------

@@ -18,3 +18,7 @@ python:
       path: .
       extra_requirements:
         - docs
+        - rag
+        - qdrant
+        - chromadb
+        - faiss
