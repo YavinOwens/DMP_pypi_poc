@@ -21,7 +21,7 @@ if requirements_file.exists():
 
 setup(
     name="datamanagement-genai",
-    version="0.1.0",
+    version="0.1.3",
     author="Data Management Team",
     description="Snowflake Cortex AI Model Benchmarking and Data Quality Management Tool",
     long_description=long_description,

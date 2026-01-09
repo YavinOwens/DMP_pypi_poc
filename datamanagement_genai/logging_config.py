@@ -103,6 +103,11 @@ def configure_logging(
     logging.getLogger('snowflake.connector.connection').setLevel(logging.WARNING)
     logging.getLogger('snowflake.snowpark.session').setLevel(logging.WARNING)
     
+    # Suppress great_expectations verbose INFO messages
+    logging.getLogger('great_expectations').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations._docs_decorators').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations.expectations.registry').setLevel(logging.WARNING)
+    
     # Suppress boto3 deprecation warnings
     warnings.filterwarnings('ignore', category=DeprecationWarning, module='boto3')
     

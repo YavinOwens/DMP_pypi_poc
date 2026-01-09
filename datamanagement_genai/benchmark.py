@@ -44,6 +44,11 @@ except ImportError:
     # Suppress Snowflake verbose logs
     logging.getLogger('snowflake.connector').setLevel(logging.WARNING)
     logging.getLogger('snowflake.snowpark').setLevel(logging.WARNING)
+    
+    # Suppress great_expectations verbose INFO messages
+    logging.getLogger('great_expectations').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations._docs_decorators').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations.expectations.registry').setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 
@@ -72,13 +77,10 @@ except ImportError:
     logger.warning("tiktoken not available, falling back to character-based estimation")
     _tokenizer = None
 
-# Try to import great_expectations for better code validation
-try:
-    import great_expectations as gx  # noqa: F401
-    GX_AVAILABLE = True
-except ImportError:
-    GX_AVAILABLE = False
-    logger.warning("great-expectations not available, GX code validation will be limited")
+# GX availability will be checked lazily when needed
+# This avoids importing great_expectations at module load time
+GX_AVAILABLE = None  # Will be set to True/False on first use
+_gx_module = None  # Will store the imported module if available
 
 # Import data quality rules manager (required component)
 from .data_quality.rules_manager import DataQualityRulesManager  # noqa: E402
@@ -956,6 +958,38 @@ def evaluate_response_quality(response, test_type, expected_elements):
     
     return min(score, max_score), feedback
 
+def _ensure_gx_available():
+    """
+    Lazy import of great_expectations - only import when actually needed.
+    This avoids importing GX at module load time, allowing users to import
+    the benchmark module without triggering GX initialization.
+    """
+    global GX_AVAILABLE, _gx_module
+    
+    # If already checked, return
+    if GX_AVAILABLE is not None:
+        return
+    
+    # Try to import great_expectations for better code validation
+    # Configure logging BEFORE import to suppress verbose INFO messages
+    try:
+        # Suppress great_expectations verbose logging before import
+        import logging as _logging
+        _logging.getLogger('great_expectations').setLevel(_logging.WARNING)
+        _logging.getLogger('great_expectations._docs_decorators').setLevel(_logging.WARNING)
+        _logging.getLogger('great_expectations.expectations.registry').setLevel(_logging.WARNING)
+        _logging.getLogger('great_expectations.core').setLevel(_logging.WARNING)
+        _logging.getLogger('great_expectations.data_context').setLevel(_logging.WARNING)
+        
+        # Now import with logging suppressed
+        import great_expectations as gx  # noqa: F401
+        _gx_module = gx
+        GX_AVAILABLE = True
+    except ImportError:
+        GX_AVAILABLE = False
+        _gx_module = None
+        logger.warning("great-expectations not available, GX code validation will be limited")
+
 def test_code_execution(session, response: str, test_type: str) -> Tuple[bool, Optional[str]]:
     """
     Test if generated SQL or code is executable with improved validation
@@ -1061,6 +1095,8 @@ def test_code_execution(session, response: str, test_type: str) -> Tuple[bool, O
             return False, f"Compilation error: {str(e)[:300]}"
         
         # If GX is available, try to validate the code structure more thoroughly
+        # Lazy import: only import GX when actually needed for validation
+        _ensure_gx_available()
         if GX_AVAILABLE:
             try:
                 # Check if code uses valid GX patterns

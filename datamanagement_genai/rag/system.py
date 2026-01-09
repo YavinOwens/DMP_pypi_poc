@@ -39,12 +39,18 @@ logger = logging.getLogger(__name__)
 # Try to import required libraries (optional - for PDF processing)
 try:
     from langchain_community.document_loaders import PyPDFLoader
-    from langchain.text_splitter import RecursiveCharacterTextSplitter
+    # Try new location first (langchain-text-splitters), then fall back to old location
+    try:
+        from langchain_text_splitters import RecursiveCharacterTextSplitter
+    except ImportError:
+        # Fallback for older langchain versions
+        from langchain.text_splitter import RecursiveCharacterTextSplitter
     LANGCHAIN_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"LangChain not available for PDF processing: {e}")
     logger.info("PDF processing will use alternative methods")
     LANGCHAIN_AVAILABLE = False
+    RecursiveCharacterTextSplitter = None
 
 try:
     from docx import Document
@@ -501,7 +507,12 @@ class RAGSystem:
         
         # Ensure text splitter is initialized (should be from __init__)
         if not self.text_splitter:
-            from langchain.text_splitter import RecursiveCharacterTextSplitter
+            # Try new location first (langchain-text-splitters), then fall back to old location
+            try:
+                from langchain_text_splitters import RecursiveCharacterTextSplitter
+            except ImportError:
+                # Fallback for older langchain versions
+                from langchain.text_splitter import RecursiveCharacterTextSplitter
             self.text_splitter = RecursiveCharacterTextSplitter(
                 chunk_size=self.chunk_size,
                 chunk_overlap=self.chunk_overlap,

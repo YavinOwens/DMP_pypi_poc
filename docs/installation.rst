@@ -34,6 +34,7 @@ For RAG (Retrieval-Augmented Generation) features:
 This includes:
 * langchain
 * langchain-community
+* langchain-text-splitters
 * pypdf
 * PyPDF2
 * pdfplumber
@@ -99,6 +100,19 @@ This includes:
 * sentence-transformers
 * torch
 
+Benchmarking Support
+~~~~~~~~~~~~~~~~~~~~
+
+For enhanced benchmarking features with accurate token counting and data quality validation:
+
+.. code-block:: bash
+
+   pip install datamanagement-genai[benchmark]
+
+This includes:
+* tiktoken (for accurate token counting)
+* great-expectations (for data quality code validation)
+
 All Features
 ~~~~~~~~~~~~
 
@@ -106,7 +120,7 @@ To install with all optional dependencies:
 
 .. code-block:: bash
 
-   pip install datamanagement-genai[rag,jupyter,qdrant,chromadb,faiss,local-embeddings]
+   pip install datamanagement-genai[rag,jupyter,qdrant,chromadb,faiss,local-embeddings,benchmark]
 
 Requirements
 ------------

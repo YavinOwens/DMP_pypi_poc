@@ -48,7 +48,7 @@ For optional features:
    pip install datamanagement-genai[qdrant,chromadb,faiss]
 
    # With all features
-   pip install datamanagement-genai[rag,jupyter,qdrant,chromadb,faiss]
+   pip install datamanagement-genai[rag,jupyter,qdrant,chromadb,faiss,benchmark]
 
 Quick Start
 -----------

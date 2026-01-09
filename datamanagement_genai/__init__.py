@@ -5,14 +5,28 @@ A comprehensive Python package for Snowflake Cortex AI model benchmarking,
 data quality management, and RAG-enhanced reporting.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.3"
 __author__ = "Data Management Team"
 
-# Export verbosity control for Jupyter notebooks
+# Configure logging early to suppress third-party verbose messages
+# This must happen before any imports that might trigger logging
 try:
     from .logging_config import set_verbosity, configure_logging, is_jupyter_environment
+    # Configure logging early to suppress great_expectations and other verbose logs
+    import logging
+    if not logging.getLogger().handlers:
+        configure_logging(verbose=False)
+    # Ensure great_expectations logs are suppressed even if imported later
+    logging.getLogger('great_expectations').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations._docs_decorators').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations.expectations.registry').setLevel(logging.WARNING)
 except (ImportError, AttributeError):
-    # If import fails, create stub functions that do nothing
+    # If import fails, create stub functions and configure basic logging
+    import logging
+    logging.getLogger('great_expectations').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations._docs_decorators').setLevel(logging.WARNING)
+    logging.getLogger('great_expectations.expectations.registry').setLevel(logging.WARNING)
+    
     def set_verbosity(verbose: bool = True) -> None:
         """Stub function if logging_config not available"""
         pass
