@@ -4,15 +4,63 @@ A comprehensive Python package for Snowflake Cortex AI model benchmarking, data 
 
 ## Features
 
-- **Model Benchmarking**: Test and compare Snowflake Cortex AI models
+- **Model Benchmarking**: Test and compare Snowflake Cortex AI models with comprehensive metrics
 - **Data Quality Management**: LLM-powered data quality rules generation and management
 - **RAG System**: Retrieval-Augmented Generation for knowledge base enhancement
+- **Multi-Backend Support**: Choose from Snowflake, Qdrant, ChromaDB, or FAISS vector stores
 - **Report Generation**: Automated Word document generation with citations
+- **Jupyter Support**: Seamless integration with Jupyter notebooks
+- **Accurate Token Counting**: Optional tiktoken support for precise token estimation
+- **Data Quality Validation**: Optional great-expectations integration for code validation
 
 ## Installation
 
+### From PyPI (Production)
+
+```bash
+pip install datamanagement-genai
+```
+
+### From TestPyPI (Testing)
+
+```bash
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ datamanagement-genai
+```
+
+### From GitHub (Development)
+
+```bash
+pip install git+https://github.com/YavinOwens/DMP_pypi_poc.git
+```
+
+### Local Development
+
 ```bash
 pip install -e .
+```
+
+### Optional Dependencies
+
+Install additional features as needed:
+
+```bash
+# RAG system support
+pip install datamanagement-genai[rag]
+
+# Benchmarking support (tiktoken, great-expectations)
+pip install datamanagement-genai[benchmark]
+
+# Jupyter notebook support
+pip install datamanagement-genai[jupyter]
+
+# Vector store backends
+pip install datamanagement-genai[qdrant,chromadb,faiss]
+
+# Local embeddings (sentence-transformers, torch)
+pip install datamanagement-genai[local-embeddings]
+
+# All features
+pip install datamanagement-genai[rag,jupyter,qdrant,chromadb,faiss,local-embeddings,benchmark]
 ```
 
 ## Usage
@@ -97,9 +145,24 @@ datamanagement_genai/
 
 ## Requirements
 
-- Python 3.9+
-- Snowflake account with Cortex AI access
-- See `requirements.txt` for dependencies
+- Python 3.9 or higher
+- Snowflake account with Cortex AI enabled
+- Snowflake credentials (account, user, password, warehouse, database, schema)
+
+### Core Dependencies
+
+- pandas>=1.5.0
+- snowflake-connector-python>=4.1.0
+- snowflake-snowpark-python>=1.44.0
+- python-docx>=1.1.0
+
+### Optional Dependencies
+
+See installation instructions above for optional dependency groups (rag, benchmark, jupyter, qdrant, chromadb, faiss, local-embeddings).
+
+## Documentation
+
+Full documentation is available at: https://dmp-pypi-poc.readthedocs.io/en/latest/index.html
 
 ## License
 

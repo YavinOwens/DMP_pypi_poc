@@ -1,14 +1,25 @@
 Installation
 ============
 
-The Data Management GenAI package can be installed from PyPI or directly from GitHub.
+The Data Management GenAI package can be installed from PyPI, TestPyPI, or directly from GitHub.
 
-From PyPI
----------
+From PyPI (Production)
+----------------------
 
 .. code-block:: bash
 
    pip install datamanagement-genai
+
+From TestPyPI (Testing)
+------------------------
+
+For testing the latest development version before it's published to production PyPI:
+
+.. code-block:: bash
+
+   pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ datamanagement-genai
+
+Note: When installing from TestPyPI, you need to specify both TestPyPI and PyPI as index URLs because TestPyPI doesn't mirror all dependencies. The ``--extra-index-url`` ensures that dependencies not available on TestPyPI are fetched from production PyPI.
 
 From GitHub
 -----------

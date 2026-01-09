@@ -11,7 +11,7 @@ class TestImports:
         """Test that main package can be imported"""
         import datamanagement_genai
         assert hasattr(datamanagement_genai, '__version__')
-        assert datamanagement_genai.__version__ == "0.1.0"
+        assert datamanagement_genai.__version__ == "0.1.3"
 
     def test_core_imports(self):
         """Test that core functions can be imported"""
