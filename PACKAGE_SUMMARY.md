@@ -2,7 +2,7 @@
 
 ## Package Structure
 
-The package has been created in `/Users/ymo/python_projects/datamanagement_genai/` as a separate, standalone Python package.
+The package is located in the repository root as a standalone Python package, published to TestPyPI.
 
 ## Files Copied
 
@@ -62,8 +62,18 @@ datamanagement_genai/
 
 ## Installation
 
+### From TestPyPI (Recommended for Testing)
 ```bash
-cd /Users/ymo/python_projects/datamanagement_genai
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ datamanagement-genai
+```
+
+### From GitHub (Development)
+```bash
+pip install git+https://github.com/YavinOwens/DMP_pypi_poc.git
+```
+
+### Local Development
+```bash
 pip install -e .
 ```
 
@@ -84,9 +94,25 @@ from datamanagement_genai import (
 datamanagement-genai
 ```
 
+## Current Status
+
+- **Version**: 0.1.3
+- **Author**: Yavin.O
+- **Status**: Published to TestPyPI
+- **Documentation**: https://dmp-pypi-poc.readthedocs.io/en/latest/index.html
+
+## Key Features Added
+
+- Multi-backend RAG support (Snowflake, Qdrant, ChromaDB, FAISS)
+- Data solution proposition generation (Situation, Problem, Implication, Need-payoff methodology)
+- Benchmarking support with tiktoken and great-expectations
+- Comprehensive test suite
+- CI/CD pipeline with GitHub Actions
+- Automated documentation on Read the Docs
+
 ## Notes
 
-- All files were **copied** (not moved) from the original project
-- Original project files remain unchanged in `data-management-discovery-reporting-genai/`
 - Package is completely independent and can be installed separately
 - All imports have been updated to work within the package structure
+- Package structure includes multi-backend RAG system with factory pattern
+- Data solution methodology (Situation, Problem, Implication, Need-payoff) integrated into report generation

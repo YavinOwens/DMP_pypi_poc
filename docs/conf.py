@@ -24,6 +24,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
     'sphinx.ext.githubpages',
+    'sphinxcontrib.mermaid',  # Mermaid diagram support
 ]
 
 # Napoleon settings for Google/NumPy style docstrings
