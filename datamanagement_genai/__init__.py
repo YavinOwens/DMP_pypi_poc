@@ -5,7 +5,7 @@ A comprehensive Python package for Snowflake Cortex AI model benchmarking,
 data quality management, and RAG-enhanced reporting.
 """
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __author__ = "Yavin.O"
 
 # Configure logging early to suppress third-party verbose messages

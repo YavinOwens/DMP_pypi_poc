@@ -13,8 +13,8 @@ sys.path.insert(0, str(package_root))
 project = 'Data Management GenAI'
 copyright = '2026, Yavin.O'
 author = 'Yavin.O'
-release = '0.1.3'
-version = '0.1.3'
+release = '0.1.4'
+version = '0.1.4'
 
 # General configuration
 extensions = [
