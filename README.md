@@ -2,6 +2,8 @@
 
 A Python package for Snowflake Cortex AI model benchmarking, data quality management, with RAG reporting.
 
+Full documentation is available at: https://dmp-pypi-poc.readthedocs.io/en/latest/index.html
+
 ## Features
 
 - **Model Benchmarking**: Test and compare Snowflake Cortex AI models with comprehensive metrics
@@ -14,6 +16,18 @@ A Python package for Snowflake Cortex AI model benchmarking, data quality manage
 - **Data Quality Validation**: Optional great-expectations integration for code validation
 
 ## Installation
+
+## Requirements
+
+- Python 3.9 or higher
+- Snowflake account with Cortex AI enabled
+- Snowflake credentials (account, user, password, warehouse, database, schema)
+
+
+### Optional Dependencies
+
+See installation instructions above for optional dependency groups (rag, benchmark, jupyter, qdrant, chromadb, faiss, local-embeddings).
+
 
 ### From TestPyPI (Testing)
 
@@ -125,7 +139,7 @@ doc = create_word_document(
 
 ### In Jupyter Notebooks
 
-The package works seamlessly in Jupyter notebooks with helper functions for easier use. See `examples/jupyter_example.ipynb` for examples.
+The package works in Jupyter notebooks with helper functions for easier use. See `examples/jupyter_example.ipynb` for examples.
 
 ```python
 # In a Jupyter notebook cell
@@ -180,23 +194,3 @@ datamanagement_genai/
 └── data_quality_rules.csv
 ```
 
-## Requirements
-
-- Python 3.9 or higher
-- Snowflake account with Cortex AI enabled
-- Snowflake credentials (account, user, password, warehouse, database, schema)
-
-### Core Dependencies
-
-- pandas>=1.5.0
-- snowflake-connector-python>=4.1.0
-- snowflake-snowpark-python>=1.44.0
-- python-docx>=1.1.0
-
-### Optional Dependencies
-
-See installation instructions above for optional dependency groups (rag, benchmark, jupyter, qdrant, chromadb, faiss, local-embeddings).
-
-## Documentation
-
-Full documentation is available at: https://dmp-pypi-poc.readthedocs.io/en/latest/index.html
