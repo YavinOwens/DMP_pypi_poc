@@ -6,7 +6,7 @@ data quality management, and RAG-enhanced reporting.
 """
 
 __version__ = "0.1.3"
-__author__ = "Data Management Team"
+__author__ = "Yavin.O"
 
 # Configure logging early to suppress third-party verbose messages
 # This must happen before any imports that might trigger logging
