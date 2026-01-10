@@ -200,7 +200,3 @@ See installation instructions above for optional dependency groups (rag, benchma
 ## Documentation
 
 Full documentation is available at: https://dmp-pypi-poc.readthedocs.io/en/latest/index.html
-
-## License
-
-MIT
